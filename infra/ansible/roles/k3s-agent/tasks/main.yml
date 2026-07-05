@@ -1,0 +1,7 @@
+---
+- name: Install k3s agent and join cluster
+  shell: |
+    curl -sfL https://get.k3s.io | K3S_URL=https://{{ server_private_ip }}:6443 \
+      K3S_TOKEN={{ join_token }} sh -s -
+  args:
+    creates: /usr/local/bin/k3s-agent

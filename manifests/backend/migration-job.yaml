@@ -1,0 +1,24 @@
+# IMPORTANT: verify the migration command against cicd_dockerized/k8s-lesson/
+# in your forked repo — that reference shows exactly how the backend image
+# runs migrations (likely `flask db upgrade` since it's Flask-Migrate/alembic
+# based, per Michael's guide referencing alembic_version table).
+# If the command below is wrong, check the backend Dockerfile's CMD/entrypoint.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: taskapp-migrate
+  namespace: taskapp
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: ghcr.io/ts-a-devops/taskapp-backend:5d6b8fc
+          command: ["alembic", "upgrade", "head"]
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secret

@@ -1,0 +1,10 @@
+# Copy this to terraform.tfvars and fill in your own values.
+# NEVER commit terraform.tfvars if it has real secrets — but admin_cidr is not
+# secret, so this file is safe to commit. Just don't commit terraform.tfstate.
+
+aws_region    = "us-east-1"
+project_name  = "capstone-phoenix"
+instance_type = "t3.small"
+
+# Find your IP with: curl -s ifconfig.me
+admin_cidr = "REPLACE.WITH.YOUR.IP/32"

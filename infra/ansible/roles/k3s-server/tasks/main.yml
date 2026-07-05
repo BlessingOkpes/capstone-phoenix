@@ -1,0 +1,40 @@
+---
+- name: Install k3s server
+  shell: |
+    curl -sfL https://get.k3s.io | sh -s - server \
+      --write-kubeconfig-mode 644 \
+      --tls-san {{ ansible_host }}
+  args:
+    creates: /usr/local/bin/k3s
+
+- name: Wait for node-token to exist
+  wait_for:
+    path: /var/lib/rancher/k3s/server/node-token
+    timeout: 60
+
+- name: Read node token
+  slurp:
+    src: /var/lib/rancher/k3s/server/node-token
+  register: node_token_raw
+
+- name: Expose join token as a fact for agent hosts to use
+  set_fact:
+    k3s_join_token: "{{ node_token_raw.content | b64decode | trim }}"
+
+- name: Fetch kubeconfig to control machine
+  fetch:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: ./k3s.yaml
+    flat: true
+
+- name: Point kubeconfig at the public IP instead of 127.0.0.1
+  delegate_to: localhost
+  become: false
+  replace:
+    path: ./k3s.yaml
+    regexp: "https://127.0.0.1:6443"
+    replace: "https://{{ ansible_host }}:6443"
+
+- name: Kubeconfig ready
+  debug:
+    msg: "Run: export KUBECONFIG=$(pwd)/k3s.yaml && kubectl get nodes"
