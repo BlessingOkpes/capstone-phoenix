@@ -36,6 +36,10 @@ spec:
               app: backend
       containers:
         - name: backend
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 5"]
           image: ghcr.io/ts-a-devops/taskapp-backend:5d6b8fc
           ports:
             - containerPort: 5000
