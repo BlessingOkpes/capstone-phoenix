@@ -1,4 +1,4 @@
-# Replace <your-github-username> below with your actual GitHub username.
+# Replace BlessingOkpes below with your actual GitHub username.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<your-github-username>/capstone-phoenix.git
+    repoURL: https://github.com/BlessingOkpes/capstone-phoenix.git
     targetRevision: main
     path: manifests
   destination:
