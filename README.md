@@ -1,3 +1,19 @@
+# Capstone Phoenix — Blessing Okpes' Submission
+
+**Live app:** https://taskapp.44.192.62.66.nip.io
+**GitHub username:** BlessingOkpes
+**Repo:** https://github.com/BlessingOkpes/capstone-phoenix
+
+Demo login: `admin` / `admin123`
+
+- Infrastructure: `infra/terraform/` (modular: network, security_group, compute; remote state via S3+DynamoDB)
+- Cluster: `infra/ansible/` (roles: base-hardening, k3s-server, k3s-agent)
+- App manifests: `manifests/`
+- GitOps: `gitops/taskapp-application.yaml` (Argo CD)
+- Docs: `docs/ARCHITECTURE.md`, `docs/RUNBOOK.md`, `docs/COST.md`, `docs/EVIDENCE/`
+
+---
+
 # Capstone — Phoenix: TaskApp on Real Kubernetes
 
 > **Mission.** Take the **TaskApp** you containerized and shipped to one server with
